@@ -145,18 +145,188 @@ public class MagicTVRemote {
 		this.port = port;
 	}
 	
-	public void menu(){
-		byte[] build = compile(CMD_MENU);
-		for (int i = 0; i < build.length; i++){
-			System.out.print(Integer.toHexString(build[i]) + " ");
-		}
-		System.out.println("");
-		try {
-			sendUDPRaw(build);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void menu() throws IOException{
+		sendUDPRaw(compile(CMD_MENU));
+	}
+	
+	public void power() throws IOException{
+		sendUDPRaw(compile(CMD_POWER));
+	}
+	
+	public void guide() throws IOException{
+		sendUDPRaw(compile(CMD_GUIDE));
+	}
+	
+	public void text() throws IOException{
+		sendUDPRaw(compile(CMD_TEXT));
+	}
+	
+	public void aspect() throws IOException{
+		sendUDPRaw(compile(CMD_ASPECT));
+	}
+	
+	public void audio() throws IOException{
+		sendUDPRaw(compile(CMD_AUDIO));
+	}
+	
+	public void subtitle() throws IOException{
+		sendUDPRaw(compile(CMD_SUBTITLE));
+	}
+	
+	public void back() throws IOException{
+		sendUDPRaw(compile(CMD_BACK));
+	}
+	
+	public void up() throws IOException{
+		sendUDPRaw(compile(CMD_UP));
+	}
+	
+	public void down() throws IOException{
+		sendUDPRaw(compile(CMD_DOWN));
+	}
+	
+	public void left() throws IOException{
+		sendUDPRaw(compile(CMD_LEFT));
+	}
+	
+	public void right() throws IOException{
+		sendUDPRaw(compile(CMD_RIGHT));
+	}
+	
+	public void info() throws IOException{
+		sendUDPRaw(compile(CMD_INFO));
+	}
+	
+	public void ok() throws IOException{
+		sendUDPRaw(compile(CMD_OK));
+	}
+	
+	public void volume_up() throws IOException{
+		sendUDPRaw(compile(CMD_VOL_UP));
+	}
+	
+	public void volume_down() throws IOException{
+		sendUDPRaw(compile(CMD_VOL_DOWN));
+	}
+	
+	public void mute() throws IOException{
+		sendUDPRaw(compile(CMD_MUTE));
+	}
+	
+	public void channel_up() throws IOException{
+		sendUDPRaw(compile(CMD_CH_UP));
+	}
+	
+	public void channel_down() throws IOException{
+		sendUDPRaw(compile(CMD_CH_DOWN));
+	}
+	
+	public void record() throws IOException{
+		sendUDPRaw(compile(CMD_REC));
+	}
+	
+	public void pause() throws IOException{
+		sendUDPRaw(compile(CMD_PAUSE));
+	}
+	
+	public void stop() throws IOException{
+		sendUDPRaw(compile(CMD_STOP));
+	}
+	
+	public void play() throws IOException{
+		sendUDPRaw(compile(CMD_PLAY));
+	}
+	
+	public void fast_reverse() throws IOException{
+		sendUDPRaw(compile(CMD_FAST_REVERSE));
+	}
+	
+	public void fast_forward() throws IOException{
+		sendUDPRaw(compile(CMD_FAST_FORWARD));
+	}
+	
+	public void replay() throws IOException{
+		sendUDPRaw(compile(CMD_REPLAY));
+	}
+
+	public void skip() throws IOException{
+		sendUDPRaw(compile(CMD_SKIP));
+	}
+
+	public void source() throws IOException{
+		sendUDPRaw(compile(CMD_LIVE_SOURCE));
+	}
+
+	public void one() throws IOException{
+		sendUDPRaw(compile(CMD_ONE));
+	}
+	
+	public void two() throws IOException{
+		sendUDPRaw(compile(CMD_TWO));
+	}
+
+	public void three() throws IOException{
+		sendUDPRaw(compile(CMD_THREE));
+	}
+
+	public void four() throws IOException{
+		sendUDPRaw(compile(CMD_FOUR));
+	}
+
+	public void five() throws IOException{
+		sendUDPRaw(compile(CMD_FIVE));
+	}
+
+	public void six() throws IOException{
+		sendUDPRaw(compile(CMD_SIX));
+	}
+
+	public void seven() throws IOException{
+		sendUDPRaw(compile(CMD_SEVEN));
+	}
+
+	public void eight() throws IOException{
+		sendUDPRaw(compile(CMD_EIGHT));
+	}
+
+	public void nine() throws IOException{
+		sendUDPRaw(compile(CMD_NINE));
+	}
+
+	public void zero() throws IOException{
+		sendUDPRaw(compile(CMD_ZERO));
+	}
+	
+	public void clear() throws IOException{
+		cross();
+	}
+
+	public void cross() throws IOException{
+		sendUDPRaw(compile(CMD_CROSS_CLEAR));
+	}
+	
+	public void enter() throws IOException{
+		tick();
+	}
+
+	public void tick() throws IOException{
+		sendUDPRaw(compile(CMD_TICK_ENTER));
+	}
+
+	public void red() throws IOException{
+		sendUDPRaw(compile(CMD_RED));
+	}
+	
+	public void green() throws IOException{
+		sendUDPRaw(compile(CMD_GREEN));
+	}
+	
+	public void yellow() throws IOException{
+		sendUDPRaw(compile(CMD_YELLOW));
+	}
+	
+	public void blue() throws IOException{
+		sendUDPRaw(compile(CMD_BLUE));
 	}
 	
 	public static byte[] compile(byte[] command){
