@@ -31,6 +31,8 @@ import java.net.InetAddress;
 
 public class MagicTVRemote {
 	
+	public static final byte[] gainInfo = {0x55, 0x00, 0x00, 0x40, 0x40, 0x04, 0x00, 0x01, 0x00, 0x00, 0x00, (byte) 0xAA};
+	
 	public static final byte[] returnOK = {0x55, 0x00, 0x00, (byte) 0x80, 0x40, 0x06, 0x00, 0x01, 0x10, 0x02, 0x00, 0x04, 0x00, (byte) 0xAA};
 
 	//Total 16. start hex is only 13
@@ -131,6 +133,10 @@ public class MagicTVRemote {
 	//Default port
 	public static final int DEFAULT_PORT = 23456;
 	
+	private String model;
+	
+	private String firmware;
+	
 	private final String ip;
 	
 	private final int port;
@@ -143,6 +149,42 @@ public class MagicTVRemote {
 	public MagicTVRemote(String ip, int port){
 		this.ip = ip;
 		this.port = port;
+		try {
+			gainInfo();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public String getModel(){
+		return model;
+	}
+	
+	public void gainInfo() throws IOException{
+		byte[] bytes = sendUDPRaw(gainInfo);
+		String model = "";
+		boolean capModel = false;
+		for (int i = 0; i < bytes.length; i++){
+			System.out.println(i + " [" + ((char) bytes[i]) + "] " + Integer.toHexString(bytes[i]));
+			if (model.equals("") && bytes[i] == 0x5A){
+				System.out.println("Start Capturing...");
+				capModel = true;
+				i++;
+				continue;
+			}
+			if (capModel){
+				if (bytes[i] == 0x00){
+					System.out.println("End capture");
+					capModel = false;
+					continue;
+				}
+				model += (char) bytes[i];
+				System.out.println((char)bytes[i]);
+			}
+		}
+		this.model = model;
+		System.out.println("[" + model + "]");
 	}
 	
 	public void menu() throws IOException{
@@ -338,21 +380,37 @@ public class MagicTVRemote {
 		int j = 0;
 		for (; j < command.length; i++, j++){
 			out[i] = command[j];
-			System.out.println("[" + Integer.toHexString(out[i]) + "]");
 		}
 		out[i] = endingHex;
 		return out;
 	}
 	
-	public void sendUDPRaw(byte[] raw) throws IOException{
+	public byte[] sendUDPRaw(byte[] raw) throws IOException{
+		System.out.print("Sending: [");
+		for (int i = 0; i < raw.length; i++){
+			System.out.print(Integer.toHexString(raw[i]));
+		}
+		System.out.println("]");
 	    InetAddress hostAddress = InetAddress.getByName(ip);
-		DatagramSocket s = new DatagramSocket();
+		DatagramSocket s = new DatagramSocket(23456);
 		
-	    byte[] buf = raw;
+		byte[] buf = new byte[156];
 	    
-	    DatagramPacket out = new DatagramPacket(buf, buf.length, hostAddress, port);
+	    DatagramPacket in = new DatagramPacket(buf, buf.length);
+	    DatagramPacket out = new DatagramPacket(raw, raw.length, hostAddress, port);
 	    s.send(out);
 	    
+	    s.receive(in);
+	    
+	    System.out.print("Recevied: [");
+	    byte[] recevied = in.getData();
+	    for (int i = 0; i < recevied.length; i++){
+	    	System.out.print(Integer.toHexString(recevied[i]));
+	    }
+	    System.out.println("]");
+	    System.out.println("Returned OK? " + recevied.equals(returnOK));
+	    
 	    s.close();
+	    return recevied;
 	}
 }
