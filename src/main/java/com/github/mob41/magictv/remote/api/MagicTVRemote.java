@@ -1,14 +1,9 @@
 package com.github.mob41.magictv.remote.api;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
-import java.nio.ByteBuffer;
-import java.nio.IntBuffer;
-import java.util.Arrays;
 
 public class MagicTVRemote {
 	
